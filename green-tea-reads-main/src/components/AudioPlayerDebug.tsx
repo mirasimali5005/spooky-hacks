@@ -86,7 +86,7 @@ export const AudioPlayerDebug: React.FC<AudioPlayerDebugProps> = ({ audioBase64,
   return (
     <div className="bg-gradient-to-r from-primary/20 to-accent/20 p-5 rounded-lg border border-primary/50">
       <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
-        <span>🎤</span> AI Voice Performance
+        <span></span> AI Voice Performance
       </h3>
 
       {/* Big Play/Pause Button */}
