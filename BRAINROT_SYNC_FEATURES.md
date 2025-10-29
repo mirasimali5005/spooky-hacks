@@ -3,6 +3,7 @@
 ## What's New
 
 ### 1. 🧠 BRAINROT LYRICS MODE
+
 The AI now generates **unhinged, terminally-online brainrot rap lyrics** with:
 
 - **Gen Z/Alpha Slang**: "no cap", "fr fr", "bussin", "sigma", "rizz", "gyat", "fanum tax", "skibidi", "Ohio", "L + ratio", "sus", "based", "slay", etc.
@@ -11,14 +12,18 @@ The AI now generates **unhinged, terminally-online brainrot rap lyrics** with:
 - **Subject Order**: Mentions each Wikipedia subject IN ORDER they appear in the path
 
 ### 2. 🎬 AUDIO-VIDEO SYNCHRONIZATION
+
 The mosaic animation now **syncs perfectly with the audio**:
 
 #### How It Works:
+
 1. **Audio-Driven Timing**: The animation speed is automatically calculated based on the audio duration
+
    - Total audio duration ÷ number of path steps = duration per image transition
    - Minimum 2 seconds per transition for visibility
 
 2. **Real-Time Sync**: As the audio plays, the animation matches the timing
+
    - When the lyrics mention "Mao Zedong", the mosaic shows the Mao Zedong image transition
    - Uses audio `timeupdate` events to sync stage changes
 
@@ -27,6 +32,7 @@ The mosaic animation now **syncs perfectly with the audio**:
    - Visual feedback shows which subject is being sung about
 
 #### Technical Implementation:
+
 - `MosaicAnimation` accepts an `audioRef` prop
 - Listens to audio playback events (`timeupdate`, `play`, `pause`)
 - Calculates expected stage based on `audio.currentTime / audio.duration`
@@ -35,21 +41,21 @@ The mosaic animation now **syncs perfectly with the audio**:
 
 ### 3. 🎯 Features Summary
 
-| Feature | Description |
-|---------|-------------|
-| **Brainrot Prompt** | Maximum chaos, Gen Z slang, memes, internet culture |
-| **Audio Sync** | Mosaic transitions match audio timing perfectly |
-| **Lyrics Highlight** | Current subject being sung is highlighted in yellow |
-| **Voice Selection** | Choose from multiple Gemini TTS voices |
-| **PCM-to-WAV Conversion** | Audio automatically converted for browser playback |
-| **Debug Player** | Shows audio info, duration, format, and download option |
+| Feature                   | Description                                             |
+| ------------------------- | ------------------------------------------------------- |
+| **Brainrot Prompt**       | Maximum chaos, Gen Z slang, memes, internet culture     |
+| **Audio Sync**            | Mosaic transitions match audio timing perfectly         |
+| **Lyrics Highlight**      | Current subject being sung is highlighted in yellow     |
+| **Voice Selection**       | Choose from multiple Gemini TTS voices                  |
+| **PCM-to-WAV Conversion** | Audio automatically converted for browser playback      |
+| **Debug Player**          | Shows audio info, duration, format, and download option |
 
 ## Usage
 
 1. **Upload Start & End Images**: Choose two images for your Wikipedia path
 2. **Select Voice**: Pick your preferred TTS voice (Kore, Puck, Charon, etc.)
 3. **Click "Find Path & Animate"**: AI finds the Wikipedia connection
-4. **Watch & Listen**: 
+4. **Watch & Listen**:
    - Lyrics generate with maximum brainrot energy
    - Audio plays automatically
    - Mosaic animation syncs with the audio

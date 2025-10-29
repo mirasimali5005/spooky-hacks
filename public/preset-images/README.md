@@ -5,13 +5,16 @@ This directory contains hardcoded/preset images that users can select as the **e
 ## How to Add Preset Images
 
 1. **Add your image file** to this directory (`public/preset-images/`)
+
    - Supported formats: `.jpg`, `.jpeg`, `.png`, `.webp`
    - Recommended size: 200x200px to 500x500px (square images work best)
    - File naming: Use lowercase with hyphens (e.g., `beabadoobee.jpg`, `taylor-swift.jpg`)
 
 2. **Update the preset list** in `/components/PresetImageSelector.tsx`
+
    - Add a new entry to the `PRESET_IMAGES` array
    - Example:
+
    ```typescript
    {
      id: 'beabadoobee',           // Unique ID (match filename without extension)
@@ -31,16 +34,16 @@ This directory contains hardcoded/preset images that users can select as the **e
 ```typescript
 export const PRESET_IMAGES: PresetImage[] = [
   {
-    id: 'beabadoobee',
-    name: 'Beabadoobee',      // ← This is what Gemini will use
-    displayName: 'Beabadoobee',
-    path: '/preset-images/beabadoobee.jpg',
+    id: "beabadoobee",
+    name: "Beabadoobee", // ← This is what Gemini will use
+    displayName: "Beabadoobee",
+    path: "/preset-images/beabadoobee.jpg",
   },
   {
-    id: 'mao-zedong',
-    name: 'Mao Zedong',        // ← Exact Wikipedia subject name
-    displayName: 'Mao Zedong',
-    path: '/preset-images/mao-zedong.jpg',
+    id: "mao-zedong",
+    name: "Mao Zedong", // ← Exact Wikipedia subject name
+    displayName: "Mao Zedong",
+    path: "/preset-images/mao-zedong.jpg",
   },
 ];
 ```
@@ -48,6 +51,7 @@ export const PRESET_IMAGES: PresetImage[] = [
 ## Current Preset Images
 
 Place your images here:
+
 - `beabadoobee.jpg` - Singer/songwriter
 - `taylor-swift.jpg` - Pop artist
 - `barack-obama.jpg` - Former US President

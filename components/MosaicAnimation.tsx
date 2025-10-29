@@ -57,13 +57,13 @@ export const MosaicAnimation: React.FC<MosaicAnimationProps> = ({
     if (!audioRef?.current || !pathStepCount) return;
 
     const audio = audioRef.current;
-    
+
     const handleTimeUpdate = () => {
       if (!audio.duration || isNaN(audio.duration)) return;
-      
+
       const progress = audio.currentTime / audio.duration;
       const expectedStage = Math.floor(progress * pathStepCount);
-      
+
       if (expectedStage !== stage && expectedStage < pathStepCount) {
         setStage(expectedStage);
         setAudioDrivenSync(true);

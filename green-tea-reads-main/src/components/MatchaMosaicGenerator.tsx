@@ -35,12 +35,12 @@ const MatchaMosaicGenerator = () => {
   const [isGeneratingLyrics, setIsGeneratingLyrics] = useState(false);
   const [selectedVoice, setSelectedVoice] = useState('kore');
   const [currentAnimationStage, setCurrentAnimationStage] = useState(0);
-  
+
   // Preset image selection
   const [selectedPresetEnd, setSelectedPresetEnd] = useState<any>(null);
   const [presetEndSubjectName, setPresetEndSubjectName] = useState<string | null>(null);
   const [selectedPresetEndImageUrl, setSelectedPresetEndImageUrl] = useState<string | null>(null);
-  
+
   // Audio ref for syncing
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -49,7 +49,7 @@ const MatchaMosaicGenerator = () => {
     setSelectedPresetEnd(preset);
     setPresetEndSubjectName(preset.name);
     setSelectedPresetEndImageUrl(preset.path);
-    
+
     try {
       const response = await fetch(preset.path);
       const blob = await response.blob();
@@ -89,8 +89,24 @@ const MatchaMosaicGenerator = () => {
 
     try {
       // 1) Identify subjects from the provided files
+      // Add delay to avoid rate limiting
+      setWikiLoadingMessage('Identifying start subject...');
       const startSubject = await identifySubject(startImage);
-      const endSubject = presetEndSubjectName || await identifySubject(endImage);
+
+      // Add 2 second delay before next API call
+      await new Promise(r => setTimeout(r, 2000));
+
+      // Only identify end subject if not using a preset
+      let endSubject: string;
+      if (presetEndSubjectName) {
+        endSubject = presetEndSubjectName;
+        setWikiLoadingMessage(`Using preset end subject: "${endSubject}"...`);
+      } else {
+        setWikiLoadingMessage('Identifying end subject...');
+        endSubject = await identifySubject(endImage);
+        // Add another delay after identifying
+        await new Promise(r => setTimeout(r, 2000));
+      }
 
       setWikiLoadingMessage(`Finding path from "${startSubject}" to "${endSubject}"...`);
       const pathSteps = await findWikipediaPath(startSubject, endSubject);
@@ -101,7 +117,8 @@ const MatchaMosaicGenerator = () => {
         for (let i = 0; i < tries; i++) {
           const u = await getWikipediaImage(name);
           if (u) return u;
-          await new Promise(r => setTimeout(r, 250 * (i + 1)));
+          // Increase delay between retries to avoid rate limiting
+          await new Promise(r => setTimeout(r, 500 * (i + 1)));
         }
         return null;
       };
@@ -114,7 +131,8 @@ const MatchaMosaicGenerator = () => {
             const imageUrl = selectedPresetEndImageUrl || URL.createObjectURL(endImage);
             return { ...step, imageUrl };
           }
-          await new Promise(r => setTimeout(r, 120 * index));
+          // Add staggered delay to avoid rate limiting (500ms between each request)
+          await new Promise(r => setTimeout(r, 500 * index));
           const imageUrl = await fetchWithRetry(step.subjectName);
           return { ...step, imageUrl: imageUrl || undefined };
         })
@@ -126,12 +144,12 @@ const MatchaMosaicGenerator = () => {
       const seqUrls: string[] = [];
       const startObjUrl = URL.createObjectURL(startImage);
       seqUrls.push(startObjUrl);
-      
+
       for (let i = 1; i < pathWithImages.length - 1; i++) {
         const u = pathWithImages[i].imageUrl;
         if (u) seqUrls.push(u);
       }
-      
+
       const endObjUrl = selectedPresetEndImageUrl || URL.createObjectURL(endImage);
       seqUrls.push(endObjUrl);
 
@@ -212,17 +230,17 @@ const MatchaMosaicGenerator = () => {
 
             {/* End Image with Presets */}
             <div className="space-y-4">
-              <ImageUploader 
-                title="End Subject (Upload Custom)" 
+              <ImageUploader
+                title="End Subject (Upload Custom)"
                 onImageUpload={(file) => {
                   setEndImage(file);
                   setSelectedPresetEnd(null);
                   setPresetEndSubjectName(null);
                   setSelectedPresetEndImageUrl(null);
-                }} 
+                }}
               />
               <div className="mt-4">
-                <PresetImageSelector 
+                <PresetImageSelector
                   title="Or Choose Preset End Subject"
                   selectedPreset={selectedPresetEnd}
                   onSelect={handlePresetEndSelect}
@@ -311,7 +329,7 @@ const MatchaMosaicGenerator = () => {
                       const currentSubject = wikiPath[currentAnimationStage]?.subjectName.toLowerCase();
                       const isCurrentLine = currentSubject && line.toLowerCase().includes(currentSubject);
                       return (
-                        <div 
+                        <div
                           key={i}
                           className={`transition-all duration-300 ${isCurrentLine ? 'text-primary font-bold scale-105 transform' : ''}`}
                         >

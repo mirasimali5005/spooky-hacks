@@ -27,7 +27,7 @@ const fileToGenerativePart = async (file: File) => {
 export const identifySubject = async (imageFile: File): Promise<string> => {
   const imagePart = await fileToGenerativePart(imageFile);
   const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-2.0-flash-lite',
     contents: {
         parts: [
             imagePart,
@@ -47,7 +47,7 @@ export const findWikipediaPath = async (startSubject: string, endSubject: string
   const prompt = `You are an expert at the Wikipedia Game. Find a short, logical path of clicked links from the Wikipedia article for "${startSubject}" to the article for "${endSubject}". Provide the path as a JSON array. Each object in the array should represent a step and have two keys: "subjectName" (the name of the current article) and "connectingLinkTitle" (the title of the link on that page to get to the next subject). The first object's subjectName should be "${startSubject}". The last object's subjectName should be "${endSubject}" and its "connectingLinkTitle" should be null.`;
 
   const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-2.0-flash-lite',
       contents: prompt,
       config: {
         responseMimeType: 'application/json',

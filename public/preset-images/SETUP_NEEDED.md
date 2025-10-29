@@ -23,6 +23,7 @@ Add these images to the `public/preset-images/` directory:
 4. Remove this file (`SETUP_NEEDED.md`)
 
 ### Format:
+
 - Supported: `.jpg`, `.jpeg`, `.png`, `.webp`
 - Recommended: JPEG format for smaller file size
 - Size: < 1MB per image

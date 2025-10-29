@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback, ChangeEvent } from 'react';
-import { UploadIcon } from './icons';
+import { Upload } from 'lucide-react';
 
 interface ImageUploaderProps {
   title: string;
@@ -35,7 +35,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ title, onImageUplo
           <img src={preview} alt="Preview" className="w-full h-full object-cover" />
         ) : (
           <div className="text-center text-gray-400">
-            <UploadIcon />
+            <Upload className="w-12 h-12 mx-auto" />
             <p className="mt-2">Click to upload an image</p>
           </div>
         )}

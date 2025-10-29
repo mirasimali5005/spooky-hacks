@@ -36,12 +36,12 @@ const App: React.FC = () => {
   const [isGeneratingLyrics, setIsGeneratingLyrics] = useState(false);
   const [selectedVoice, setSelectedVoice] = useState('kore');
   const [currentAnimationStage, setCurrentAnimationStage] = useState(0);
-  
+
   // Preset image selection
   const [selectedPresetEnd, setSelectedPresetEnd] = useState<PresetImage | null>(null);
   const [presetEndSubjectName, setPresetEndSubjectName] = useState<string | null>(null);
   const [presetEndImageUrl, setPresetEndImageUrl] = useState<string | null>(null);
-  
+
   // Audio ref for syncing
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
@@ -159,7 +159,7 @@ const App: React.FC = () => {
     setSelectedPresetEnd(preset);
     setPresetEndSubjectName(preset.name); // Store the subject name for Gemini
     setPresetEndImageUrl(preset.path); // Store the preset URL directly
-    
+
     try {
       const response = await fetch(preset.path);
       const blob = await response.blob();
@@ -202,7 +202,7 @@ const App: React.FC = () => {
                   setPresetEndImageUrl(null);
                 }} />
                 <div className="mt-4">
-                  <PresetImageSelector 
+                  <PresetImageSelector
                     title="Or Choose Preset End Subject"
                     selectedPreset={selectedPresetEnd}
                     onSelect={handlePresetEndSelect}
@@ -257,7 +257,7 @@ const App: React.FC = () => {
                         const currentSubject = wikiPath[currentAnimationStage]?.subjectName.toLowerCase();
                         const isCurrentLine = currentSubject && line.toLowerCase().includes(currentSubject);
                         return (
-                          <div 
+                          <div
                             key={i}
                             className={`transition-all duration-300 ${isCurrentLine ? 'text-yellow-300 font-bold scale-105 transform' : ''}`}
                           >
