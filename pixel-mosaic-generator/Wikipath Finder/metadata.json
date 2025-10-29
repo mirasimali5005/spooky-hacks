@@ -1,5 +1,0 @@
-{
-  "name": "WikiPath Finder",
-  "description": "An application that finds the 'Wikipedia link' path between two images. It uses Gemini to analyze the subjects of the images, find a logical path of Wikipedia articles connecting them, and generates an image for each step in the path.",
-  "requestFramePermissions": []
-}

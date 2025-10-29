@@ -1,5 +1,0 @@
-{
-  "name": "Pixel Mosaic Generator",
-  "description": "Upload an image and watch as its pixels are rearranged to form a mosaic of a target image. This application demonstrates client-side image processing to create beautiful, unique photomosaics.",
-  "requestFramePermissions": []
-}
