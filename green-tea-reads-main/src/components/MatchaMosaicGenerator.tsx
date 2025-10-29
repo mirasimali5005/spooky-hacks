@@ -232,6 +232,7 @@ const MatchaMosaicGenerator = () => {
             <div className="space-y-4">
               <ImageUploader
                 title="End Subject (Upload Custom)"
+                externalPreview={selectedPresetEndImageUrl}
                 onImageUpload={(file) => {
                   setEndImage(file);
                   setSelectedPresetEnd(null);
