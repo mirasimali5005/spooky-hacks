@@ -101,7 +101,7 @@ export const AudioPlayerDebug: React.FC<AudioPlayerDebugProps> = ({ audioBase64,
         </button>
         <div className="flex-1">
           <p className="text-foreground font-semibold">
-            {isPlaying ? '🎵 Now Playing...' : audioInfo.canPlay ? '▶️ Click to Play AI Rap' : '⏳ Loading audio...'}
+            {isPlaying ? '🎵 Now Playing...' : audioInfo.canPlay ? 'Click to Play AI Rap' : '⏳ Loading audio...'}
           </p>
           <p className="text-muted-foreground text-sm">
             {audioInfo.duration > 0 ? `Duration: ${audioInfo.duration.toFixed(1)}s` : 'Preparing audio...'}

@@ -26,7 +26,7 @@ export const VoiceSelector: React.FC<VoiceSelectorProps> = ({ selectedVoice, onV
   return (
     <div className="mb-4">
       <label htmlFor="voice-select" className="block text-sm font-semibold text-gray-300 mb-2">
-        🎤 Select AI Voice
+        Select AI Voice
       </label>
       <select
         id="voice-select"

@@ -337,7 +337,7 @@ const MatchaMosaicGenerator = () => {
               <div className="space-y-4">
                 <div className="bg-gradient-to-br from-primary/10 to-accent/10 p-6 rounded-xl border border-primary/30">
                   <h4 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
-                    <span>📝</span> Lyrics <span className="text-xs text-muted-foreground ml-2">(synced with animation)</span>
+                    <span></span> Lyrics <span className="text-xs text-muted-foreground ml-2">(synced with animation)</span>
                   </h4>
                   <pre className="whitespace-pre-wrap text-sm text-foreground font-mono leading-relaxed bg-background/50 p-4 rounded-lg overflow-x-auto max-h-96">
                     {rapSongData.lyrics.split('\n').map((line, i) => {

@@ -1,6 +1,6 @@
-# 🎤 Voice & Lyrics Generation - Implementation Guide
+# Voice & Lyrics Generation - Implementation Guide
 
-## ✅ What's Been Implemented
+## What's Been Implemented
 
 ### 1. **Lyrics Generation**
 
@@ -23,7 +23,7 @@
 Located below the Wikipedia path results:
 
 ```
-🎵 AI-Generated Rap Song
+AI-Generated Rap Song
 ├── Loading State (spinning animation)
 ├── Lyrics Display
 │   └── Formatted in a gradient box with monospace font
@@ -31,7 +31,7 @@ Located below the Wikipedia path results:
     └── HTML5 audio controls with custom styling
 ```
 
-## 📁 Files Modified
+## Files Modified
 
 ### Core Files:
 
@@ -40,7 +40,7 @@ Located below the Wikipedia path results:
 3. **`App.tsx`** - Main integration
 4. **`.env.local`** - Environment variables (VITE_GEMINI_API_KEY)
 
-## 🎯 How It Works
+## How It Works
 
 ### Flow:
 
@@ -52,15 +52,15 @@ Located below the Wikipedia path results:
 3. Parallel processes start:
    ├── Fetch Wikipedia images
    ├── Generate mosaic tiles
-   └── Generate lyrics & voice ⭐
+   └── Generate lyrics & voice
    ↓
 4. Display results:
    ├── Wikipedia path with images/links
-   ├── 🎵 Lyrics & Audio Player ⭐
+   ├── Lyrics & Audio Player
    └── Mosaic animation
 ```
 
-## 🔍 Testing Steps
+## Testing Steps
 
 1. **Open browser**: http://localhost:3000/
 2. **Upload two images** (e.g., a celebrity and a concept)
@@ -74,30 +74,30 @@ Located below the Wikipedia path results:
 
 5. **Check Console** (F12 → Console):
    ```
-   🎵 Starting lyrics and voice generation for X subjects
-   📝 Generating lyrics from [Start] to [End]
-   ✅ Lyrics generated successfully: ...
-   🎤 Generating voice audio...
-   ✅ Voice audio generated successfully!
+   Starting lyrics and voice generation for X subjects
+   Generating lyrics from [Start] to [End]
+   Lyrics generated successfully: ...
+   Generating voice audio...
+   Voice audio generated successfully!
    ```
 
-## 🎨 UI Features
+## UI Features
 
 ### Lyrics Section:
 
 - **Gradient background**: Indigo to purple
 - **Border**: Indigo with 50% opacity
 - **Font**: Monospace for that "rap sheet" look
-- **Icon**: 📝 emoji
+- **Icon**: text emoji
 
 ### Audio Section:
 
 - **Gradient background**: Purple to pink
 - **Custom audio player**: Styled with hue rotation
 - **Metadata**: Shows number of subjects mentioned
-- **Icon**: 🎤 emoji
+- **Icon**: text emoji
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### If lyrics don't appear:
 
@@ -119,7 +119,7 @@ Located below the Wikipedia path results:
 3. **Try different browser** (Chrome/Firefox recommended)
 4. **Check audio permissions** in browser settings
 
-## 🎵 Sample Output
+## Sample Output
 
 ### Example Lyrics:
 
@@ -133,7 +133,7 @@ Ended at Philosophy of Mind, the plan
 It's giving... big brain energy, fam! (boom bap)
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Supported Gemini TTS Voices:
 
@@ -160,13 +160,13 @@ In `services/voiceService.ts`, modify the prompt:
 
 - Line 22-30: Change tone, length, style requirements
 
-## 📊 Performance
+## Performance
 
 - **Lyrics generation**: ~2-5 seconds
 - **Voice synthesis**: ~3-7 seconds
 - **Total**: ~5-12 seconds (parallel with mosaic generation)
 
-## 🚀 Next Steps
+## Next Steps
 
 Potential enhancements:
 
@@ -179,4 +179,4 @@ Potential enhancements:
 
 ---
 
-**Built with ❤️ using Gemini 2.5 Flash & TTS**
+**Built with using Gemini 2.5 Flash & TTS**
