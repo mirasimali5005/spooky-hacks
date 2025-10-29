@@ -1,22 +1,14 @@
 
-import React, { useState, useCallback, ChangeEvent, useEffect } from 'react';
+import React, { useState, useCallback, ChangeEvent } from 'react';
 import { Upload } from 'lucide-react';
 
 interface ImageUploaderProps {
   title: string;
   onImageUpload: (file: File | null) => void;
-  externalPreview?: string | null; // For preset images
 }
 
-export const ImageUploader: React.FC<ImageUploaderProps> = ({ title, onImageUpload, externalPreview }) => {
+export const ImageUploader: React.FC<ImageUploaderProps> = ({ title, onImageUpload }) => {
   const [preview, setPreview] = useState<string | null>(null);
-
-  // Update preview when external preview changes (from preset selection)
-  useEffect(() => {
-    if (externalPreview) {
-      setPreview(externalPreview);
-    }
-  }, [externalPreview]);
 
   const handleFileChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

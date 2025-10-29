@@ -63,7 +63,7 @@ const Hero = () => {
             transform: `translate3d(${mousePosition.x * -10}px, ${mousePosition.y * -10}px, 60px)`
           }}
         >
-          Your cozy corner for books, beats, and beautiful brews
+          Return performance into any of your media.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-in fade-in duration-700 delay-300">

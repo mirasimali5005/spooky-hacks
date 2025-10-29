@@ -12,11 +12,6 @@ const Footer = () => {
             <BookOpen className="w-6 h-6 text-primary" />
           </div>
 
-          {/* Tagline */}
-          <p className="text-muted-foreground text-center max-w-md">
-            Creating cozy moments, one book, beat, and brew at a time
-          </p>
-
           {/* Made with Love */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <span>Made with</span>

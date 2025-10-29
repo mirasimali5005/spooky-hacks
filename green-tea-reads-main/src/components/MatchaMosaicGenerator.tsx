@@ -208,9 +208,7 @@ const MatchaMosaicGenerator = () => {
             </h1>
             <Sparkles className="w-10 h-10 text-primary animate-float-delayed" />
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Create stunning pixel mosaics that morph along Wikipedia paths, complete with AI-generated brainrot rap songs
-          </p>
+
         </div>
 
         {/* Main Generator Card */}
