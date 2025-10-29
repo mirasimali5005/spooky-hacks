@@ -12,6 +12,7 @@ import PathTimeline from './components/PathTimeline';
 import { generateLyricsAndVoice } from './services/voiceService';
 import { VoiceSelector } from './components/VoiceSelector';
 import { AudioPlayerDebug } from './components/AudioPlayerDebug';
+import { PresetImageSelector, PRESET_IMAGES, type PresetImage } from './components/PresetImageSelector';
 
 interface MosaicData {
   translations: ChainedTileTranslation[];
@@ -35,6 +36,11 @@ const App: React.FC = () => {
   const [isGeneratingLyrics, setIsGeneratingLyrics] = useState(false);
   const [selectedVoice, setSelectedVoice] = useState('kore');
   const [currentAnimationStage, setCurrentAnimationStage] = useState(0);
+  
+  // Preset image selection
+  const [selectedPresetEnd, setSelectedPresetEnd] = useState<PresetImage | null>(null);
+  const [presetEndSubjectName, setPresetEndSubjectName] = useState<string | null>(null);
+  const [presetEndImageUrl, setPresetEndImageUrl] = useState<string | null>(null);
   
   // Audio ref for syncing
   const audioRef = React.useRef<HTMLAudioElement>(null);
@@ -63,10 +69,9 @@ const App: React.FC = () => {
 
     try {
       // 1) Identify subjects from the provided files
-      const [startSubject, endSubject] = await Promise.all([
-        identifySubject(startImage),
-        identifySubject(endImage),
-      ]);
+      // Use preset name if end image is from preset, otherwise identify from image
+      const startSubject = await identifySubject(startImage);
+      const endSubject = presetEndSubjectName || await identifySubject(endImage);
 
       setWikiLoadingMessage(`Finding path from "${startSubject}" to "${endSubject}"...`);
       const pathSteps = await findWikipediaPath(startSubject, endSubject);
@@ -86,7 +91,11 @@ const App: React.FC = () => {
       const pathWithImages: PathStep[] = await Promise.all(
         pathSteps.map(async (step, index) => {
           if (index === 0) return { ...step, imageUrl: URL.createObjectURL(startImage) };
-          if (index === pathSteps.length - 1) return { ...step, imageUrl: URL.createObjectURL(endImage) };
+          if (index === pathSteps.length - 1) {
+            // Use preset image URL if available, otherwise create blob URL
+            const endImageUrl = presetEndImageUrl || URL.createObjectURL(endImage);
+            return { ...step, imageUrl: endImageUrl };
+          }
           await new Promise(r => setTimeout(r, 120 * index));
           const imageUrl = await fetchWithRetry(step.subjectName);
           return { ...step, imageUrl: imageUrl || undefined };
@@ -105,8 +114,8 @@ const App: React.FC = () => {
         const u = pathWithImages[i].imageUrl;
         if (u) seqUrls.push(u);
       }
-      // end
-      const endObjUrl = URL.createObjectURL(endImage);
+      // end - use preset URL if available, otherwise create blob URL
+      const endObjUrl = presetEndImageUrl || URL.createObjectURL(endImage);
       seqUrls.push(endObjUrl);
 
       setWikiImageUrls(seqUrls);
@@ -143,7 +152,24 @@ const App: React.FC = () => {
       setIsWikiLoading(false);
       setWikiLoadingMessage('');
     }
-  }, [startImage, endImage, selectedVoice]);
+  }, [startImage, endImage, selectedVoice, presetEndImageUrl]);
+
+  // Convert preset image to File object when selected
+  const handlePresetEndSelect = useCallback(async (preset: PresetImage) => {
+    setSelectedPresetEnd(preset);
+    setPresetEndSubjectName(preset.name); // Store the subject name for Gemini
+    setPresetEndImageUrl(preset.path); // Store the preset URL directly
+    
+    try {
+      const response = await fetch(preset.path);
+      const blob = await response.blob();
+      const file = new File([blob], `${preset.id}.jpg`, { type: 'image/jpeg' });
+      setEndImage(file);
+    } catch (err) {
+      console.error('Failed to load preset image:', err);
+      setError('Failed to load preset image. Please try again.');
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 font-sans p-4 sm:p-6 lg:p-8">
@@ -168,7 +194,21 @@ const App: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <WikiImageUploader title="Start Subject" onImageUpload={setStartImage} />
-              <WikiImageUploader title="End Subject" onImageUpload={setEndImage} />
+              <div>
+                <WikiImageUploader title="End Subject (Upload Custom)" onImageUpload={(file) => {
+                  setEndImage(file);
+                  setSelectedPresetEnd(null); // Clear preset if custom upload
+                  setPresetEndSubjectName(null);
+                  setPresetEndImageUrl(null);
+                }} />
+                <div className="mt-4">
+                  <PresetImageSelector 
+                    title="Or Choose Preset End Subject"
+                    selectedPreset={selectedPresetEnd}
+                    onSelect={handlePresetEndSelect}
+                  />
+                </div>
+              </div>
             </div>
             <div className="text-center">
               <button
