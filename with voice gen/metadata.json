@@ -1,0 +1,5 @@
+{
+  "name": "WikiPath Finder",
+  "description": "An application that finds the Wikipedia connection between two subjects identified from user-uploaded images, displaying the path with images fetched from the Wikipedia REST API.",
+  "requestFramePermissions": []
+}
