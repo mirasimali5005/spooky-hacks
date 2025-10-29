@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Matcha & Cream Color Palette */
+    --background: 80 40% 97%;
+    --foreground: 150 25% 25%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 150 25% 25%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 25% 25%;
+
+    /* Matcha Green Primary */
+    --primary: 120 35% 65%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 120 40% 85%;
+    --primary-glow: 120 45% 75%;
+
+    /* Blush Accent */
+    --secondary: 340 60% 92%;
+    --secondary-foreground: 150 25% 25%;
+
+    --muted: 80 30% 94%;
+    --muted-foreground: 150 15% 50%;
+
+    --accent: 340 65% 88%;
+    --accent-foreground: 150 25% 25%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 120 25% 88%;
+    --input: 120 25% 90%;
+    --ring: 120 35% 65%;
+
+    --radius: 1rem;
+
+    /* Gradients */
+    --gradient-matcha: linear-gradient(135deg, hsl(120 35% 65%) 0%, hsl(120 45% 75%) 100%);
+    --gradient-soft: linear-gradient(180deg, hsl(80 40% 97%) 0%, hsl(120 40% 95%) 100%);
+    --gradient-blush: linear-gradient(135deg, hsl(340 60% 92%) 0%, hsl(20 70% 95%) 100%);
+
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(120 35% 65% / 0.15);
+    --shadow-card: 0 8px 30px -8px hsl(120 35% 65% / 0.2);
+    --shadow-glow: 0 0 30px hsl(120 45% 75% / 0.3);
+
+    /* Transitions */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    cursor: url('/src/assets/matcha-cursor.png') 16 16, auto;
+    cursor: image-set(
+      url('/src/assets/matcha-cursor.png') 1x
+    ) 16 16, auto;
+  }
+
+  button, a, [role="button"], input, textarea, select {
+    cursor: url('/src/assets/matcha-cursor.png') 16 16, pointer;
+    cursor: image-set(
+      url('/src/assets/matcha-cursor.png') 1x
+    ) 16 16, pointer;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer utilities {
+  .gradient-matcha {
+    background: var(--gradient-matcha);
+  }
+
+  .gradient-soft {
+    background: var(--gradient-soft);
+  }
+
+  .gradient-blush {
+    background: var(--gradient-blush);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* 3D Utilities */
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .perspective {
+    perspective: 1000px;
+  }
+
+  .perspective-lg {
+    perspective: 1500px;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  /* Floating Animation */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotateX(5deg) rotateY(5deg);
+    }
+  }
+
+  @keyframes float-delayed {
+    0%, 100% {
+      transform: translateY(0px) rotateX(0deg);
+    }
+    50% {
+      transform: translateY(-15px) rotateX(-3deg);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-delayed 8s ease-in-out infinite;
+  }
+
+  /* 3D Card Hover Effect */
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-3d:hover {
+    transform: translateY(-10px) rotateX(5deg) rotateY(2deg) scale(1.02);
+  }
+
+  /* Parallax Layers */
+  .parallax-layer {
+    transition: transform 0.3s ease-out;
+  }
+}
