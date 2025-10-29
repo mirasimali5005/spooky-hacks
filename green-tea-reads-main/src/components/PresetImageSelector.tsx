@@ -85,8 +85,8 @@ export const PresetImageSelector: React.FC<PresetImageSelectorProps> = ({
               relative aspect-square rounded-lg overflow-hidden border-2 transition-all duration-200
               ${
                 selectedPreset?.id === preset.id
-                  ? 'border-indigo-500 ring-2 ring-indigo-400 scale-105 shadow-lg shadow-indigo-500/50'
-                  : 'border-gray-600 hover:border-gray-400 hover:scale-105'
+                  ? 'border-primary ring-2 ring-primary/50 scale-105 shadow-lg shadow-primary/50'
+                  : 'border-primary/30 hover:border-primary/60 hover:scale-105'
               }
             `}
             title={preset.displayName}
@@ -100,7 +100,7 @@ export const PresetImageSelector: React.FC<PresetImageSelectorProps> = ({
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
                 target.parentElement!.innerHTML = `
-                  <div class="w-full h-full bg-gray-700 flex items-center justify-center text-xs text-gray-400 p-1 text-center">
+                  <div class="w-full h-full bg-primary/20 flex items-center justify-center text-xs text-primary p-1 text-center">
                     ${preset.displayName}
                   </div>
                 `;
@@ -115,8 +115,8 @@ export const PresetImageSelector: React.FC<PresetImageSelectorProps> = ({
         ))}
       </div>
       {selectedPreset && (
-        <div className="mt-3 p-3 bg-indigo-900/30 rounded-lg border border-indigo-500/50">
-          <p className="text-sm text-indigo-300">
+        <div className="mt-3 p-3 bg-primary/20 rounded-lg border border-primary/50">
+          <p className="text-sm text-primary">
             Selected: <span className="font-semibold">{selectedPreset.displayName}</span>
           </p>
         </div>

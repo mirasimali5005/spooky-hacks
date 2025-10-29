@@ -108,7 +108,7 @@ export const AudioPlayerDebug: React.FC<AudioPlayerDebugProps> = ({ audioBase64,
           download="ai-rap-song.wav"
           className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-md transition-colors"
         >
-          ⬇️ Download Audio
+           Download Audio
         </a>
       </div>
     </div>

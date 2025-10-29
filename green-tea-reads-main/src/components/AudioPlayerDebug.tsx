@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Play, Pause } from 'lucide-react';
 
 interface AudioPlayerDebugProps {
   audioBase64: string;
@@ -10,6 +11,7 @@ interface AudioPlayerDebugProps {
 export const AudioPlayerDebug: React.FC<AudioPlayerDebugProps> = ({ audioBase64, mimeType, lyrics, audioRef: externalAudioRef }) => {
   const internalAudioRef = useRef<HTMLAudioElement>(null);
   const audioRef = externalAudioRef || internalAudioRef;
+  const [isPlaying, setIsPlaying] = useState(false);
   const [audioInfo, setAudioInfo] = useState({
     canPlay: false,
     duration: 0,
@@ -44,9 +46,16 @@ export const AudioPlayerDebug: React.FC<AudioPlayerDebugProps> = ({ audioBase64,
       }));
     };
 
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    const handleEnded = () => setIsPlaying(false);
+
     audio.addEventListener('canplay', handleCanPlay);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('error', handleError);
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('ended', handleEnded);
 
     // Try to load
     audio.load();
@@ -55,14 +64,50 @@ export const AudioPlayerDebug: React.FC<AudioPlayerDebugProps> = ({ audioBase64,
       audio.removeEventListener('canplay', handleCanPlay);
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('error', handleError);
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('ended', handleEnded);
     };
   }, [audioBase64, detectedMimeType]);
 
+  const togglePlayPause = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play().catch(err => {
+        console.error('Failed to play audio:', err);
+      });
+    }
+  };
+
   return (
-    <div className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 p-5 rounded-lg border border-purple-500/50">
-      <h3 className="text-lg font-semibold text-purple-300 mb-3 flex items-center gap-2">
+    <div className="bg-gradient-to-r from-primary/20 to-accent/20 p-5 rounded-lg border border-primary/50">
+      <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
         <span>🎤</span> AI Voice Performance
       </h3>
+
+      {/* Big Play/Pause Button */}
+      <div className="flex items-center gap-4 mb-4">
+        <button
+          onClick={togglePlayPause}
+          disabled={!audioInfo.canPlay}
+          className="bg-primary hover:bg-primary/80 disabled:bg-muted disabled:cursor-not-allowed text-white p-4 rounded-full transition-all shadow-lg hover:scale-105"
+          aria-label={isPlaying ? 'Pause' : 'Play'}
+        >
+          {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8" />}
+        </button>
+        <div className="flex-1">
+          <p className="text-foreground font-semibold">
+            {isPlaying ? '🎵 Now Playing...' : audioInfo.canPlay ? '▶️ Click to Play AI Rap' : '⏳ Loading audio...'}
+          </p>
+          <p className="text-muted-foreground text-sm">
+            {audioInfo.duration > 0 ? `Duration: ${audioInfo.duration.toFixed(1)}s` : 'Preparing audio...'}
+          </p>
+        </div>
+      </div>
 
       <audio
         ref={audioRef}
@@ -74,41 +119,25 @@ export const AudioPlayerDebug: React.FC<AudioPlayerDebugProps> = ({ audioBase64,
         Your browser does not support the audio element.
       </audio>
 
-      {/* Debug Info */}
-      <div className="bg-gray-900/50 p-3 rounded-md text-xs space-y-1 mb-3">
-        <div className="flex items-center gap-2">
-          <span className={audioInfo.canPlay ? 'text-green-400' : 'text-yellow-400'}>
-            {audioInfo.canPlay ? '✅' : '⏳'}
-          </span>
-          <span className="text-gray-400">Can Play: {audioInfo.canPlay ? 'Yes' : 'No'}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className={audioInfo.loadedData ? 'text-green-400' : 'text-yellow-400'}>
-            {audioInfo.loadedData ? '✅' : '⏳'}
-          </span>
-          <span className="text-gray-400">
-            Duration: {audioInfo.duration > 0 ? `${audioInfo.duration.toFixed(2)}s` : 'Unknown'}
-          </span>
-        </div>
-        <div className="text-gray-400">Format: {detectedMimeType}</div>
-        <div className="text-gray-400">Base64 Length: {audioBase64.length.toLocaleString()} chars</div>
-        {audioInfo.error && (
-          <div className="text-red-400 mt-2">
+      {/* Show errors if any */}
+      {audioInfo.error && (
+        <div className="bg-destructive/10 p-3 rounded-md mb-3">
+          <div className="text-destructive text-sm">
             ⚠️ Error: {audioInfo.error}
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="flex justify-between items-center">
-        <p className="text-gray-400 text-xs">
+        <p className="text-muted-foreground text-xs">
           Generated with Gemini TTS
         </p>
         <a
           href={audioSrc}
           download="ai-rap-song.wav"
-          className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-md transition-colors"
+          className="text-xs bg-primary hover:bg-primary/80 text-white px-3 py-1 rounded-md transition-colors"
         >
-          ⬇️ Download Audio
+          Download Audio
         </a>
       </div>
     </div>

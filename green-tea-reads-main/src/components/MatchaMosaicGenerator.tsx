@@ -14,6 +14,15 @@ import { AudioPlayerDebug } from './AudioPlayerDebug';
 import { ResultsDisplay } from './ResultsDisplay';
 import { PerformativeChatbox } from './PerformativeChatbox';
 
+// Helper function to format text by removing markdown asterisks
+const formatText = (text: string): string => {
+  // Remove bold markers (**text**)
+  let formatted = text.replace(/\*\*(.+?)\*\*/g, '$1');
+  // Remove italic markers (*text*)
+  formatted = formatted.replace(/\*(.+?)\*/g, '$1');
+  return formatted;
+};
+
 interface MosaicData {
   translations: ChainedTileTranslation[];
   width: number;
@@ -333,13 +342,14 @@ const MatchaMosaicGenerator = () => {
                   <pre className="whitespace-pre-wrap text-sm text-foreground font-mono leading-relaxed bg-background/50 p-4 rounded-lg overflow-x-auto max-h-96">
                     {rapSongData.lyrics.split('\n').map((line, i) => {
                       const currentSubject = wikiPath[currentAnimationStage]?.subjectName.toLowerCase();
-                      const isCurrentLine = currentSubject && line.toLowerCase().includes(currentSubject);
+                      const formattedLine = formatText(line);
+                      const isCurrentLine = currentSubject && formattedLine.toLowerCase().includes(currentSubject);
                       return (
                         <div
                           key={i}
                           className={`transition-all duration-300 ${isCurrentLine ? 'text-primary font-bold scale-105 transform' : ''}`}
                         >
-                          {line}
+                          {formattedLine}
                         </div>
                       );
                     })}

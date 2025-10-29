@@ -5,6 +5,15 @@ import { GoogleGenAI } from "@google/genai";
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY;
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
+// Helper function to format text by removing markdown asterisks
+const formatMessageText = (text: string): string => {
+  // Remove bold markers (**text**)
+  let formatted = text.replace(/\*\*(.+?)\*\*/g, '$1');
+  // Remove italic markers (*text*)
+  formatted = formatted.replace(/\*(.+?)\*/g, '$1');
+  return formatted;
+};
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
@@ -158,7 +167,7 @@ export const PerformativeChatbox: React.FC<PerformativeChatboxProps> = ({ isVisi
                       : 'bg-card border border-border rounded-bl-none'
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                  <p className="text-sm whitespace-pre-wrap">{formatMessageText(message.content)}</p>
                 </div>
               </div>
             ))}
