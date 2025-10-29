@@ -1,0 +1,5 @@
+{
+  "name": "WikiPath Lyricist",
+  "description": "Generate a song from a conceptual journey between two images. The AI finds a path of Wikipedia topics connecting your images and writes a unique verse for each step.",
+  "requestFramePermissions": []
+}
