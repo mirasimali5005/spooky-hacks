@@ -12,6 +12,7 @@ import { ImageUploader } from './ImageUploader';
 import { VoiceSelector } from './VoiceSelector';
 import { AudioPlayerDebug } from './AudioPlayerDebug';
 import { ResultsDisplay } from './ResultsDisplay';
+import { PerformativeChatbox } from './PerformativeChatbox';
 
 interface MosaicData {
   translations: ChainedTileTranslation[];
@@ -40,6 +41,9 @@ const MatchaMosaicGenerator = () => {
   const [selectedPresetEnd, setSelectedPresetEnd] = useState<any>(null);
   const [presetEndSubjectName, setPresetEndSubjectName] = useState<string | null>(null);
   const [selectedPresetEndImageUrl, setSelectedPresetEndImageUrl] = useState<string | null>(null);
+
+  // Chatbox visibility
+  const [showChatbox, setShowChatbox] = useState(false);
 
   // Audio ref for syncing
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -78,6 +82,9 @@ const MatchaMosaicGenerator = () => {
       setError('Please upload both a start and an end image for WikiPath Mosaic.');
       return;
     }
+
+    // Show the chatbox when animation starts
+    setShowChatbox(true);
 
     setIsWikiLoading(true);
     setWikiLoadingMessage('Analyzing images...');
@@ -197,7 +204,7 @@ const MatchaMosaicGenerator = () => {
           <div className="flex items-center justify-center gap-3 mb-4">
             <Palette className="w-10 h-10 text-primary animate-float" />
             <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground">
-              Matcha Mosaic Magic
+              Performify Your Situation
             </h1>
             <Sparkles className="w-10 h-10 text-primary animate-float-delayed" />
           </div>
@@ -372,6 +379,12 @@ const MatchaMosaicGenerator = () => {
           </div>
         )}
       </div>
+
+      {/* Performative Chatbox */}
+      <PerformativeChatbox
+        isVisible={showChatbox}
+        wikiPath={wikiPath.map(step => step.subjectName)}
+      />
     </div>
   );
 };

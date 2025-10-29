@@ -1,4 +1,4 @@
-# 🍵 Matcha Mosaic Magic - Green Tea Reads Edition
+# 🍵 Performify Your Situation - Green Tea Reads Edition
 
 A beautiful matcha-themed web app that creates stunning pixel mosaics that morph along Wikipedia paths, complete with AI-generated brainrot rap songs!
 
